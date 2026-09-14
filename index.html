@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One World, Many Solutions | SDG Challenge</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #172033;
+        --muted: #697386;
+        --primary: #315efb;
+        --primary-light: #edf2ff;
+        --border: #e2e6ef;
+        --success: #198754;
+        --warning: #f59f00;
+        --shadow: 0 10px 30px rgba(30, 45, 80, 0.08);
+        --radius: 22px;
+    }
+
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+    }
+
+    button, input, textarea {
+        font: inherit;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    .app {
+        min-height: 100vh;
+    }
+
+    header {
+        background: #ffffff;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .header-inner {
+        max-width: 1100px;
+        margin: auto;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+        background: var(--primary-light);
+        display: grid;
+        place-items: center;
+        font-size: 23px;
+    }
+
+    .brand h1 {
+        font-size: 17px;
+        margin: 0;
+    }
+
+    .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .lang-btn {
+        background: var(--primary-light);
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        padding: 6px 14px;
+        border-radius: 99px;
+        font-size: 13px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .lang-btn:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    .progress-wrap {
+        min-width: 160px;
+    }
+
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 5px;
+    }
+
+    .progress-bar {
+        height: 7px;
+        background: #edf0f5;
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--primary);
+        width: 25%;
+        transition: width 0.3s ease;
+    }
+
+    main {
+        max-width: 1100px;
+        margin: auto;
+        padding: 38px 24px 80px;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 35px 20px 45px;
+    }
+
+    .hero .eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        background: var(--primary-light);
+        color: var(--primary);
+        border-radius: 99px;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 14px;
+    }
+
+    .hero h2 {
+        font-size: clamp(34px, 6vw, 62px);
+        line-height: 1.05;
+        margin: 0 0 16px;
+        letter-spacing: -1.5px;
+    }
+
+    .hero h2 span {
+        display: block;
+        color: var(--primary);
+    }
+
+    .hero p {
+        color: var(--muted);
+        max-width: 650px;
+        margin: auto;
+        font-size: 17px;
+    }
+
+    .zh-text {
+        display: none;
+        color: var(--muted);
+        font-size: 0.9em;
+        margin-top: 4px;
+        font-weight: normal;
+    }
+
+    body.bilingual .zh-text {
+        display: block;
+    }
+
+    .section {
+        display: none;
+        animation: fadeIn 0.35s ease;
+    }
+
+    .section.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+        margin-bottom: 25px;
+    }
+
+    .section-title .number {
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .section-title h3 {
+        font-size: 32px;
+        margin: 5px 0;
+    }
+
+    .section-title p {
+        margin: 0;
+        color: var(--muted);
+    }
+
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: var(--shadow);
+    }
+
+    .match-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .badge-step {
+        background: var(--primary-light);
+        color: var(--primary);
+        padding: 4px 12px;
+        border-radius: 99px;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .match-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+
+    .match-column h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .sdg-option, .problem-option {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 15px;
+        padding: 15px;
+        text-align: left;
+        margin-bottom: 10px;
+        transition: 0.2s;
+    }
+
+    .sdg-option:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+
+    .sdg-option.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    .sdg-number {
+        font-weight: 800;
+        color: var(--primary);
+    }
+
+    .feedback {
+        margin-top: 18px;
+        padding: 15px 18px;
+        border-radius: 15px;
+        display: none;
+        font-weight: 700;
+    }
+
+    .feedback.correct {
+        display: block;
+        background: #eaf8ef;
+        color: var(--success);
+    }
+
+    .feedback.wrong {
+        display: block;
+        background: #fff4e5;
+        color: #a15c00;
+    }
+
+    .case-card {
+        text-align: center;
+        padding: 40px;
+    }
+
+    .case-country {
+        font-size: 18px;
+        color: var(--muted);
+        font-weight: 700;
+    }
+
+    .case-emoji {
+        font-size: 65px;
+        margin: 12px 0;
+    }
+
+    .case-card h4 {
+        font-size: 30px;
+        margin: 8px 0 18px;
+    }
+
+    .case-problem {
+        max-width: 720px;
+        margin: auto;
+        font-size: 20px;
+        background: #f7f8fb;
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .option-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .choice {
+        border: 1px solid var(--border);
+        background: white;
+        border-radius: 15px;
+        padding: 15px;
+        text-align: left;
+        transition: 0.2s;
+    }
+
+    .choice:hover {
+        border-color: var(--primary);
+    }
+
+    .choice.selected {
+        background: var(--primary-light);
+        border-color: var(--primary);
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 13px 15px;
+        background: #fff;
+        outline: none;
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    textarea:focus {
+        border-color: var(--primary);
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        border: none;
+        border-radius: 14px;
+        padding: 13px 20px;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: #eef1f6; color: var(--text); }
+    .btn-success { background: #198754; color: white; }
+    .btn-warning { background: var(--warning); color: white; }
+    .btn-large { padding: 16px 25px; font-size: 16px; }
+
+    .speech-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .speech {
+        white-space: pre-line;
+        background: #f7f8fb;
+        padding: 20px;
+        border-radius: 16px;
+        min-height: 260px;
+    }
+
+    .audio-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .speed-select {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 10px;
+        background: white;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .passport {
+        background: var(--primary-light);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 22px;
+    }
+
+    .passport h4 { margin-top: 0; color: var(--primary); }
+
+    .passport-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .passport-item {
+        background: white;
+        padding: 12px 15px;
+        border-radius: 12px;
+    }
+
+    .passport-item span {
+        color: var(--muted);
+        font-size: 12px;
+        display: block;
+    }
+
+    .final-card {
+        text-align: center;
+        padding: 60px 30px;
+    }
+
+    .final-card .big { font-size: 55px; }
+    .final-card h3 { font-size: 38px; margin: 10px 0; }
+    .final-card p { color: var(--muted); font-size: 18px; }
+
+    @media (max-width: 800px) {
+        .match-layout, .speech-grid, .option-grid { grid-template-columns: 1fr; }
+        .header-inner { flex-direction: column; align-items: stroke; }
+        .header-controls { justify-content: space-between; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <div class="brand-icon">🌍</div>
+            <div>
+                <h1>One World, Many Solutions</h1>
+                <p>SDG Challenge</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <button class="lang-btn" onclick="toggleLanguage()">🌐 English / 中文</button>
+            <div class="progress-wrap">
+                <div class="progress-label">
+                    <span id="progressText">Step 1 of 4</span>
+                    <span id="progressPercent">25%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<div class="hero">
+    <div class="eyebrow">🌍 SDG EXIT CHALLENGE</div>
+    <h2>ONE WORLD, <span>MANY SOLUTIONS.</span></h2>
+    <p>
+        Review the SDGs, solve a random global case, and create your own solution.
+        <span class="zh-text">複習永續發展目標 (SDGs)、挑戰全球隨機案例，並提出你的專屬解決方案！</span>
+    </p>
+</div>
+
+<!-- STEP 1 -->
+<section class="section active" id="step1">
+    <div class="section-title">
+        <div class="number">STEP 01</div>
+        <h3>🧩 SDG MATCH</h3>
+        <p>
+            Match 3 global problems with the right SDGs to complete Step 1.
+            <span class="zh-text">完成 3 題全球問題與 SDG 的配對，即可進入下一步驟！</span>
+        </p>
+    </div>
+    <div class="card">
+        <div class="match-header">
+            <span class="badge-step" id="matchProgressTag">Question 1 / 3</span>
+        </div>
+        <div class="match-layout">
+            <div class="match-column">
+                <h4>
+                    🌍 Global Problem
+                    <span class="zh-text">全球情境問題</span>
+                </h4>
+                <div id="problemList"></div>
+            </div>
+            <div class="match-column">
+                <h4>
+                    🎯 Choose an SDG
+                    <span class="zh-text">選擇對應的 SDG</span>
+                </h4>
+                <div id="sdgList"></div>
+            </div>
+        </div>
+        <div id="matchFeedback" class="feedback"></div>
+        <div class="actions">
+            <div></div>
+            <button class="btn btn-primary" id="matchNextBtn" onclick="nextMatchQuestion()" style="display:none;">Next Question →</button>
+            <button class="btn btn-success" id="matchFinishBtn" onclick="goToStep(2)" style="display:none;">Continue to Step 2 →</button>
+        </div>
+    </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="section" id="step2">
+    <div class="section-title">
+        <div class="number">STEP 02</div>
+        <h3>🎲 RANDOM CASE</h3>
+        <p>
+            What would you do in this situation? (A new country will be selected)
+            <span class="zh-text">面對這個國家的挑戰，你會怎麼做？（系統將隨機抽選全新未出現過的國家）</span>
+        </p>
+    </div>
+    <div class="card case-card">
+        <div class="case-country" id="caseCountry">Click the button to generate a case.</div>
+        <div class="case-emoji" id="caseEmoji">🎲</div>
+        <h4 id="caseTitle">Your Case Is Waiting</h4>
+        <div class="case-problem" id="caseProblem">Click "Generate a Case" to begin.</div>
+        <button class="btn btn-primary btn-large" style="margin-top:25px;" onclick="generateCase()">🎲 Generate a Case</button>
+    </div>
+
+    <div class="card" id="caseQuestions" style="margin-top:20px; display:none;">
+        <div class="form-group">
+            <label>
+                ① Which SDG is connected to this case?
+                <span class="zh-text">這個案例與哪一個 SDG 相關？</span>
+            </label>
+            <div class="option-grid" id="caseSDGOptions"></div>
+        </div>
+        <div class="form-group">
+            <label>
+                ② What should we do?
+                <span class="zh-text">我們應該採取什麼行動？</span>
+            </label>
+            <div class="option-grid" id="solutionOptions"></div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="generateCase()">🎲 Try Another Case</button>
+            <button class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
+        </div>
+    </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="section" id="step3">
+    <div class="section-title">
+        <div class="number">STEP 03</div>
+        <h3>💡 MAKE YOUR CHOICE</h3>
+        <p>
+            There is no single perfect answer. Explain your thinking.
+            <span class="zh-text">沒有唯一的標準答案，選擇並說明你的思考角度！</span>
+        </p>
+    </div>
+    <div class="card">
+        <div class="form-group">
+            <label>
+                ③ Why do you choose this solution?
+                <span class="zh-text">你為什麼選擇這個方案？</span>
+            </label>
+            <div class="option-grid">
+                <button class="choice" onclick="selectReason(this, 'It is useful.', '它非常實用。')">
+                    👍 It is useful.
+                    <span class="zh-text">它非常實用。</span>
+                </button>
+                <button class="choice" onclick="selectReason(this, 'It can help many people.', '它能幫助許多人。')">
+                    👥 It can help many people.
+                    <span class="zh-text">它能幫助許多人。</span>
+                </button>
+                <button class="choice" onclick="selectReason(this, 'It is easy to use.', '它簡單易用。')">
+                    ✨ It is easy to use.
+                    <span class="zh-text">它簡單易用。</span>
+                </button>
+                <button class="choice" onclick="selectReason(this, 'It can protect the environment.', '它能保護環境。')">
+                    🌱 It can protect the environment.
+                    <span class="zh-text">它能保護環境。</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>
+                ④ Can technology help?
+                <span class="zh-text">科技能夠提供協助嗎？</span>
+            </label>
+            <div class="option-grid">
+                <button class="choice" onclick="selectTechnology(this, 'Yes', '可以')">💡 YES <span class="zh-text">可以</span></button>
+                <button class="choice" onclick="selectTechnology(this, 'Maybe', '也許')">🤔 MAYBE <span class="zh-text">也許</span></button>
+                <button class="choice" onclick="selectTechnology(this, 'No', '不需要')">❌ NO <span class="zh-text">不需要</span></button>
+            </div>
+        </div>
+        <div class="form-group" id="technologyToolGroup" style="display:none;">
+            <label>
+                ⑤ What technology could help?
+                <span class="zh-text">哪種科技工具最適合？</span>
+            </label>
+            <div class="option-grid">
+                <button class="choice" onclick="selectTool(this, 'an app', '行動應用程式 (App)')">📱 App <span class="zh-text">行動應用程式</span></button>
+                <button class="choice" onclick="selectTool(this, 'AI', '人工智慧 (AI)')">🤖 AI <span class="zh-text">人工智慧</span></button>
+                <button class="choice" onclick="selectTool(this, 'a smart device', '智慧裝置')">💻 Smart Device <span class="zh-text">智慧裝置</span></button>
+                <button class="choice" onclick="selectTool(this, 'the Internet', '網際網路')">🌐 Internet <span class="zh-text">網際網路</span></button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>
+                🗣️ Your own thought
+                <span class="zh-text">你的個人想法補充</span>
+            </label>
+            <textarea id="ownThought" placeholder="If I could change one thing, I would..."></textarea>
+        </div>
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+            <button class="btn btn-success btn-large" onclick="generateSpeech()">🎤 Generate My Speech</button>
+        </div>
+    </div>
+</section>
+
+<!-- STEP 4 -->
+<section class="section" id="step4">
+    <div class="section-title">
+        <div class="number">STEP 04</div>
+        <h3>🎤 MY SDG SOLUTION</h3>
+        <p>
+            Your choices have become your own SDG speech.
+            <span class="zh-text">你的選擇已經轉化為專屬的 SDG 短講與護照！</span>
+        </p>
+    </div>
+    <div class="passport">
+        <h4>🌍 MY SDG PASSPORT</h4>
+        <div class="passport-grid">
+            <div class="passport-item"><span>Country / 國家</span><strong id="passportCountry">—</strong></div>
+            <div class="passport-item"><span>SDG / 目標</span><strong id="passportSDG">—</strong></div>
+            <div class="passport-item"><span>Problem / 議題</span><strong id="passportProblem">—</strong></div>
+            <div class="passport-item"><span>My Solution / 解決方案</span><strong id="passportSolution">—</strong></div>
+            <div class="passport-item"><span>Technology / 搭配科技</span><strong id="passportTechnology">—</strong></div>
+        </div>
+    </div>
+    <div class="speech-grid">
+        <div class="card speech-card">
+            <h4>🇬🇧 My English Speech</h4>
+            <div class="speech" id="englishSpeech"></div>
+            
+            <div class="audio-controls">
+                <button class="btn btn-warning" onclick="speakSpeech()">🔊 Listen to Speech</button>
+                <button class="btn btn-secondary" onclick="stopSpeech()">⏹️ Stop</button>
+                <select id="speechRate" class="speed-select">
+                    <option value="0.8">🐢 0.8x (Slow)</option>
+                    <option value="1.0" selected>⚡ 1.0x (Normal)</option>
+                </select>
+                <button class="btn btn-primary" onclick="copySpeech('englishSpeech')">📋 Copy</button>
+            </div>
+        </div>
+        <div class="card speech-card">
+            <h4>🇹🇼 我的中文講稿</h4>
+            <div class="speech" id="chineseSpeech"></div>
+            <div class="audio-controls">
+                <button class="btn btn-secondary" onclick="copySpeech('chineseSpeech')">📋 複製中文</button>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+        <h4>🎤 Final Thought / 最終想法</h4>
+        <p id="finalThought">—</p>
+    </div>
+    <div class="card final-card" style="margin-top:20px;">
+        <div class="big">🌍</div>
+        <h3>One World.<br>Many Solutions.</h3>
+        <p>
+            Different problems need different solutions.<br>And technology may help us make them better.
+            <span class="zh-text">不同的全球挑戰需要多元的解決方案，善用科技將能讓世界更美好。</span>
+        </p>
+        <button class="btn btn-primary btn-large" onclick="restart()">🔄 Try Another Case</button>
+    </div>
+</section>
+
+</main>
+</div>
+
+<script>
+/* =====================================================
+   DATA DEFINITIONS
+===================================================== */
+const sdgs = [
+    { number: 3, name: "Good Health and Well-being", zh: "良好健康與福祉" },
+    { number: 4, name: "Quality Education", zh: "優質教育" },
+    { number: 6, name: "Clean Water and Sanitation", zh: "淨水及衛生" },
+    { number: 7, name: "Affordable and Clean Energy", zh: "可負擔的潔淨能源" },
+    { number: 11, name: "Sustainable Cities and Communities", zh: "永續城鄉" },
+    { number: 12, name: "Responsible Consumption and Production", zh: "負責任的消費與生產" },
+    { number: 13, name: "Climate Action", zh: "氣候行動" },
+    { number: 15, name: "Life on Land", zh: "陸域生態" }
+];
+
+// 第一部分的固定題目（包含：Kenya, India, Morocco, Singapore, France）
+const matchPool = [
+    { country: "Kenya", problem: "Some students in Kenya do not have easy access to digital learning resources.", answer: 4, zhProblem: "肯亞的部分學生難以取得數位學習資源。" },
+    { country: "India", problem: "Some communities in India do not have enough safe drinking water.", answer: 6, zhProblem: "印度部分社區缺乏足夠的安全飲用水。" },
+    { country: "Morocco", problem: "The world needs cleaner ways to produce energy instead of coal.", answer: 7, zhProblem: "全球需要更潔淨的能源，減少使用煤炭。" },
+    { country: "Singapore", problem: "Cities need to reduce pollution and create more green public spaces.", answer: 11, zhProblem: "城市需要減少污染並增加更多綠色公共空間。" },
+    { country: "France", problem: "People buy and throw away too many clothes, creating excessive waste.", answer: 12, zhProblem: "人們購買並丟棄過多衣服，製造過多廢棄物。" }
+];
+
+// 第二部分（Random Case）專用的題目，徹底避開前述 5 個國家！
+const casePool = [
+    { country: "Japan", emoji: "🇯🇵", title: "Supporting Older People", problem: "Some elderly people in Japan live alone and need support with their health and daily lives.", sdg: 3, solutions: ["Create technology to connect elderly people with helpers", "Build more large shopping malls", "Reduce community center activities"], zhSolutions: ["開發連結長者與照護者的科技平台", "興建大型購物中心", "減少社區中心活動"] },
+    { country: "Denmark", emoji: "🇩🇰", title: "Clean Energy Action", problem: "Denmark aims to reduce emissions by producing clean energy through wind power.", sdg: 7, solutions: ["Build more wind turbines for electricity", "Build more coal power stations", "Use more gasoline for transport"], zhSolutions: ["建造更多風力發電機組", "興建更多燃煤電廠", "使用更多汽油交通工具"] },
+    { country: "Brazil", emoji: "🇧🇷", title: "Protecting Rainforests", problem: "Tropical rainforests are being damaged, which harms wildlife and climate stability.", sdg: 15, solutions: ["Protect forests and plant new trees", "Cut down trees for short-term gain", "Build wide roads through forests"], zhSolutions: ["保護原始森林並種植新樹木", "砍伐樹木獲取短期利益", "在森林內開辟大型公路"] },
+    { country: "Canada", emoji: "🇨🇦", title: "Safe Water Access", problem: "Some remote communities in northern Canada struggle with clean drinking water supply.", sdg: 6, solutions: ["Install modern water treatment systems", "Deliver bottled water only", "Ignore the water quality issues"], zhSolutions: ["安裝現代水質處理淨化系統", "僅定期運送瓶裝水", "忽略水質測試與改善"] },
+    { country: "Taiwan", emoji: "🇹🇼", title: "Zero Waste Living", problem: "High population density means Taiwan needs innovative solutions for waste recycling.", sdg: 12, solutions: ["Promote strict recycling and circular economy", "Burn all trash without sorting", "Throw garbage into rivers"], zhSolutions: ["推廣嚴格回收與循環經濟", "不經分類直接焚燒所有垃圾", "把垃圾傾倒至河流中"] },
+    { country: "Norway", emoji: "🇳🇴", title: "Electric Transport", problem: "Norway wants to replace traditional gas cars with electric vehicles to cut carbon emissions.", sdg: 13, solutions: ["Build more electric vehicle charging stations", "Lower prices of gasoline cars", "Stop building public transport"], zhSolutions: ["建設更多電動車充電站", "調降汽油車售價", "停止建設公共運輸系統"] }
+];
+
+/* =====================================================
+   GLOBAL STATE
+===================================================== */
+let currentStep = 1;
+let matchQuestions = [];
+let matchIndex = 0;
+let currentMatch = null;
+
+let usedCaseCountries = new Set(); // 記錄第二部分抽過的國家
+
+let currentCase = null;
+let selectedCaseSDG = null;
+let selectedSolution = null;
+let selectedSolutionZh = null;
+let selectedReason = null;
+let selectedReasonZh = null;
+let selectedTechnology = null;
+let selectedTool = null;
+let selectedToolZh = null;
+
+window.onload = () => {
+    initMatchGame();
+};
+
+function toggleLanguage() {
+    document.body.classList.toggle("bilingual");
+}
+
+/* =====================================================
+   PROGRESS & NAVIGATION
+===================================================== */
+function goToStep(step) {
+    stopSpeech(); // 切換步驟時停止朗讀
+
+    if (step === 2 && !currentCase) {
+        generateCase();
+    }
+    if (step === 3 && (!selectedCaseSDG || !selectedSolution)) {
+        alert("Please select an SDG and a solution first! / 請先選擇對應的 SDG 與解決方案！");
+        return;
+    }
+
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById("step" + step).classList.add("active");
+
+    currentStep = step;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateProgress() {
+    const percent = currentStep * 25;
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").textContent = `Step ${currentStep} of 4`;
+    document.getElementById("progressPercent").textContent = percent + "%";
+}
+
+/* =====================================================
+   STEP 1 — MATCH GAME
+===================================================== */
+function initMatchGame() {
+    const shuffled = [...matchPool].sort(() => 0.5 - Math.random());
+    matchQuestions = shuffled.slice(0, 3);
+    matchIndex = 0;
+    showMatchQuestion();
+}
+
+function showMatchQuestion() {
+    currentMatch = matchQuestions[matchIndex];
+
+    document.getElementById("matchProgressTag").textContent = `Question ${matchIndex + 1} / 3`;
+
+    const problemList = document.getElementById("problemList");
+    const sdgList = document.getElementById("sdgList");
+
+    problemList.innerHTML = `
+        <div class="problem-option">
+            <strong>${currentMatch.country}</strong><br>
+            ${currentMatch.problem}
+            <div class="zh-text">${currentMatch.zhProblem}</div>
+        </div>
+    `;
+
+    sdgList.innerHTML = "";
+    sdgs.forEach(sdg => {
+        const button = document.createElement("button");
+        button.className = "sdg-option";
+        button.innerHTML = `
+            <span class="sdg-number">SDG ${sdg.number}</span><br>
+            ${sdg.name}
+            <div class="zh-text">${sdg.zh}</div>
+        `;
+        button.onclick = () => {
+            document.querySelectorAll(".sdg-option").forEach(item => item.classList.remove("selected"));
+            button.classList.add("selected");
+            checkMatch(sdg.number);
+        };
+        sdgList.appendChild(button);
+    });
+
+    const feedback = document.getElementById("matchFeedback");
+    feedback.className = "feedback";
+    feedback.textContent = "";
+
+    document.getElementById("matchNextBtn").style.display = "none";
+    document.getElementById("matchFinishBtn").style.display = "none";
+}
+
+function checkMatch(number) {
+    const feedback = document.getElementById("matchFeedback");
+    if (number === currentMatch.answer) {
+        const sdg = sdgs.find(item => item.number === number);
+        feedback.className = "feedback correct";
+        feedback.innerHTML = `✓ Correct! This is connected to <strong>SDG ${sdg.number} — ${sdg.name}</strong>.`;
+
+        if (matchIndex < 2) {
+            document.getElementById("matchNextBtn").style.display = "inline-block";
+        } else {
+            document.getElementById("matchFinishBtn").style.display = "inline-block";
+        }
+    } else {
+        feedback.className = "feedback wrong";
+        feedback.innerHTML = `Not quite! Think about the main problem again.`;
+        document.getElementById("matchNextBtn").style.display = "none";
+        document.getElementById("matchFinishBtn").style.display = "none";
+    }
+}
+
+function nextMatchQuestion() {
+    matchIndex++;
+    showMatchQuestion();
+}
+
+/* =====================================================
+   STEP 2 — RANDOM CASE (EXCLUDING PREVIOUS 5 COUNTRIES)
+===================================================== */
+function generateCase() {
+    // 篩選尚未抽過的全新國家案例
+    let availableCases = casePool.filter(c => !usedCaseCountries.has(c.country));
+
+    // 如果全部抽取完畢，重置紀錄重新開始
+    if (availableCases.length === 0) {
+        usedCaseCountries.clear();
+        availableCases = [...casePool];
+    }
+
+    currentCase = availableCases[Math.floor(Math.random() * availableCases.length)];
+    usedCaseCountries.add(currentCase.country);
+
+    selectedCaseSDG = null;
+    selectedSolution = null;
+
+    document.getElementById("caseCountry").textContent = currentCase.country;
+    document.getElementById("caseEmoji").textContent = currentCase.emoji;
+    document.getElementById("caseTitle").textContent = currentCase.title;
+    document.getElementById("caseProblem").textContent = currentCase.problem;
+    document.getElementById("caseQuestions").style.display = "block";
+
+    createCaseSDGOptions();
+    createSolutionOptions();
+}
+
+function createCaseSDGOptions() {
+    const container = document.getElementById("caseSDGOptions");
+    container.innerHTML = "";
+    sdgs.forEach(sdg => {
+        const button = document.createElement("button");
+        button.className = "choice";
+        button.innerHTML = `SDG ${sdg.number}<br>${sdg.name}<div class="zh-text">${sdg.zh}</div>`;
+        button.onclick = () => {
+            container.querySelectorAll(".choice").forEach(item => item.classList.remove("selected"));
+            button.classList.add("selected");
+            selectedCaseSDG = sdg.number;
+        };
+        container.appendChild(button);
+    });
+}
+
+function createSolutionOptions() {
+    const container = document.getElementById("solutionOptions");
+    container.innerHTML = "";
+    currentCase.solutions.forEach((solution, idx) => {
+        const button = document.createElement("button");
+        button.className = "choice";
+        button.innerHTML = `${solution}<div class="zh-text">${currentCase.zhSolutions[idx]}</div>`;
+        button.onclick = () => {
+            container.querySelectorAll(".choice").forEach(item => item.classList.remove("selected"));
+            button.classList.add("selected");
+            selectedSolution = solution;
+            selectedSolutionZh = currentCase.zhSolutions[idx];
+        };
+        container.appendChild(button);
+    });
+}
+
+/* =====================================================
+   STEP 3 — SELECTIONS
+===================================================== */
+function selectReason(btn, reasonEn, reasonZh) {
+    btn.parentElement.querySelectorAll(".choice").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedReason = reasonEn;
+    selectedReasonZh = reasonZh;
+}
+
+function selectTechnology(btn, tech) {
+    btn.parentElement.querySelectorAll(".choice").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedTechnology = tech;
+
+    const group = document.getElementById("technologyToolGroup");
+    if (tech === 'Yes' || tech === 'Maybe') {
+        group.style.display = "block";
+    } else {
+        group.style.display = "none";
+        selectedTool = null;
+        selectedToolZh = null;
+    }
+}
+
+function selectTool(btn, toolEn, toolZh) {
+    btn.parentElement.querySelectorAll(".choice").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedTool = toolEn;
+    selectedToolZh = toolZh;
+}
+
+/* =====================================================
+   STEP 4 — SPEECH & TEXT-TO-SPEECH (TTS)
+===================================================== */
+function generateSpeech() {
+    const ownThought = document.getElementById("ownThought").value.trim();
+    const sdgObj = sdgs.find(s => s.number === selectedCaseSDG);
+
+    document.getElementById("passportCountry").textContent = `${currentCase.emoji} ${currentCase.country}`;
+    document.getElementById("passportSDG").textContent = sdgObj ? `SDG ${sdgObj.number}` : "—";
+    document.getElementById("passportProblem").textContent = currentCase.title;
+    document.getElementById("passportSolution").textContent = selectedSolution || "—";
+    document.getElementById("passportTechnology").textContent = selectedTechnology === 'No' ? 'No' : (selectedTool || '—');
+
+    let en = `Hello everyone! Today I want to talk about ${currentCase.country}.\n`;
+    en += `In ${currentCase.country}, ${currentCase.problem.toLowerCase()}\n`;
+    en += `This issue is related to SDG ${selectedCaseSDG || '?'}.\n`;
+    en += `To solve this, I believe we should: ${selectedSolution || 'take action'}.\n`;
+    if (selectedReason) en += `I choose this solution because ${selectedReason.toLowerCase()}\n`;
+    if (selectedTechnology && selectedTechnology !== 'No' && selectedTool) {
+        en += `Furthermore, technology like ${selectedTool} can help us achieve this goal faster.\n`;
+    }
+    en += `Together, we can make the world a better place!`;
+    document.getElementById("englishSpeech").textContent = en;
+
+    let zh = `大家好！今天我想分享關於 ${currentCase.country} 的案例。\n`;
+    zh += `在 ${currentCase.country}，正面臨著當地的永續發展挑戰。\n`;
+    zh += `這個議題與聯合國永續發展目標 SDG ${selectedCaseSDG || '?'}（${sdgObj ? sdgObj.zh : ''}）息息相關。\n`;
+    zh += `為了改善這個問題，我認為我們應該：${selectedSolutionZh || selectedSolution || '採取行動'}。\n`;
+    if (selectedReasonZh) zh += `我選擇這個方案是因為${selectedReasonZh}\n`;
+    if (selectedTechnology && selectedTechnology !== 'No' && selectedToolZh) {
+        zh += `此外，結合 ${selectedToolZh} 等科技工具，能讓我們更快速達到目標。\n`;
+    }
+    zh += `讓我們一起努力，創造更美好的世界！`;
+    document.getElementById("chineseSpeech").textContent = zh;
+
+    document.getElementById("finalThought").textContent = ownThought ? `"${ownThought}"` : "—";
+
+    goToStep(4);
+}
+
+/* 語音朗讀功能 (Web Speech API) */
+function speakSpeech() {
+    stopSpeech();
+
+    const text = document.getElementById("englishSpeech").textContent;
+    if (!text) return;
+
+    if (!('speechSynthesis' in window)) {
+        alert("Sorry, your browser does not support text-to-speech. / 您的瀏覽器不支援語音朗讀功能。");
+        return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+
+    const rate = parseFloat(document.getElementById("speechRate").value) || 1.0;
+    utterance.rate = rate;
+
+    window.speechSynthesis.speak(utterance);
+}
+
+function stopSpeech() {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
+}
+
+function copySpeech(id) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard! / 已成功複製到剪貼簿！");
+    });
+}
+
+function restart() {
+    stopSpeech();
+    selectedCaseSDG = null;
+    selectedSolution = null;
+    selectedReason = null;
+    selectedTechnology = null;
+    selectedTool = null;
+    document.getElementById("ownThought").value = "";
+    initMatchGame();
+    goToStep(1);
+}
+</script>
+
+</body>
+</html>
